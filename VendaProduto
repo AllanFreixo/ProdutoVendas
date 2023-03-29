@@ -1,0 +1,66 @@
+void main() {
+  Produto notebook = Produto(nome: 'notebook', preco: 2000.45);
+  Produto mouse = Produto(nome: 'mouse', preco: 50.44, codBarras: '123');
+
+  Caixa caixaUsuario = Caixa();
+  caixaUsuario.adicionarCarrinho(notebook);
+  caixaUsuario.adicionarCarrinho(mouse);
+  
+  caixaUsuario.executarCompra(true);
+}
+
+class Produto {
+  String nome;
+  double preco;
+  String? codBarras;
+  DateTime dataCadastro = DateTime.now();
+
+  Produto({required this.nome, required this.preco, this.codBarras});
+}
+
+class Caixa {
+  List<Produto> carrinho = [];
+  double valorTotal = 0;
+  bool finalizarCarrinho = false;
+
+  void adicionarCarrinho(Produto produto) {
+    carrinho.add(produto);
+  }
+
+  void removerCarrinho(Produto produto) {
+    int index = carrinho.indexOf(produto);
+    carrinho.removeAt(index);
+  }
+
+  double calcularValorCarrinho() {
+    for (int i = 0; i < carrinho.length; i++) {
+      valorTotal = valorTotal + carrinho[i].preco;
+    }
+    return valorTotal;
+  }
+
+  void listarCarrinho() {
+    print("Itens do Carrinho");
+    for (int i = 0; i < carrinho.length; i++) {
+      print("Produto ${carrinho[i].nome} Preço ${carrinho[i].preco}");
+    }
+    double valorCarrinho = calcularValorCarrinho();
+    print(" Valor total do carrinho $valorCarrinho");
+  }
+
+  bool finalizarCompra(finalizarCarrinho) {
+    if (finalizarCarrinho == true) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void executarCompra(bool finalizarCompra) {
+    
+    if (this.finalizarCompra(finalizarCompra)) {
+      listarCarrinho();
+      print(" valor Total a Pagar $valorTotal");
+    }
+  }
+}
